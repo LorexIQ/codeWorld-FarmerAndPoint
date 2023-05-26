@@ -4,7 +4,9 @@
 
 <template>
   <div class="product-new">
-    features: Создание продукта
+    <div class="product-new__img">
+      <img src="" alt="">
+    </div>
   </div>
 </template>
 

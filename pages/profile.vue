@@ -9,26 +9,14 @@ const auth = useAuth();
 const user = auth.data as unknown as User;
 let profileImg = ref(user.value.photo ?? '');
 
-function changePhoto(e: Event) {
-  const DOMInput = e.target as HTMLInputElement;
-  if (DOMInput.files?.length) {
-    const fileReader = new FileReader();
-
-    fileReader.onload = () => {
-      if (fileReader.result) {
-        profileImg.value = fileReader.result as string;
-        useLFetch('/user/update-photo', {
-          method: 'POST',
-          body: {
-            id: user.value.id,
-            photo: fileReader.result
-          }
-        })
-      }
+async function changePhoto(file: string) {
+  await useLFetch('/user/update-photo', {
+    method: 'POST',
+    body: {
+      id: user.value.id,
+      photo: file
     }
-
-    fileReader.readAsDataURL(DOMInput.files[0]);
-  }
+  })
 }
 </script>
 
@@ -53,13 +41,7 @@ function changePhoto(e: Event) {
       </div>
     </div>
     <div class="profile__user">
-      <div class="profile__user__avatar">
-        <img :src="profileImg" alt="Error">
-        <input type="file" id="profile-img" @change="changePhoto">
-        <label for="profile-img">
-          <span>Загрузить</span>
-        </label>
-      </div>
+      <LAvatar v-model:value="profileImg" @changePhoto="changePhoto"/>
       <div class="profile__user__name">
         <h2>{{user.name}}</h2>
         <p>{{user.role}}</p>
@@ -118,46 +100,6 @@ function changePhoto(e: Event) {
     background-color: var(--frame-bg-2);
     box-shadow: 0 0 10px -3px var(--border);
 
-    &__avatar {
-      position: relative;
-      width: min(70%, 300px);
-      height: min(70%, 300px);
-      margin-bottom: 40px;
-      border-radius: 100%;
-      background-color: #fff;
-      box-shadow: 0 0 15px -5px var(--shadow);
-      overflow: hidden;
-
-      & img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      & input {
-        display: none;
-      }
-      & label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        border-radius: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
-        opacity: 0;
-
-        &:hover {
-          opacity: 1;
-        }
-        & span {
-          font-size: 24px;
-          font-weight: 600;
-        }
-      }
-    }
     &__name {
       & h2 {
         font-size: 28px;
