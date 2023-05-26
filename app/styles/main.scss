@@ -1,0 +1,32 @@
+* {
+  font-family: 'Popping', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  box-sizing: border-box;
+  transition: .3s;
+}
+
+.fade {
+  &-leave-active, &-enter-active {
+    transition: .3s;
+  }
+  &-enter-from, &-leave-to {
+    opacity: 0;
+  }
+  &-enter-to, &-leave-from {
+    opacity: 1;
+  }
+}
+
+.drop {
+  &-enter-active, &-leave-active {
+    transition: .3s;
+    overflow: hidden;
+  }
+  &-leave-to, &-enter-from {
+    max-height: 0;
+    transform: scale(0.98);
+    opacity: 0;
+  }
+}

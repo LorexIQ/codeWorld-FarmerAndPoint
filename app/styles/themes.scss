@@ -1,0 +1,31 @@
+:root {
+  --background: linear-gradient(135deg, rgba(241,236,209,1) 28%, rgba(245,228,138,1) 100%);;
+  --frame-bg: #FBFAF4;
+  --frame-bg-2: #f6f2dd;
+
+  --border: #351b00;
+  --shadow: #909090;
+  --btn-bg: #f6efd8;
+  --text: #121212;
+  --text-ph: #c7c7c7;
+
+  transition: .3s;
+
+  .dark-mode {
+    --background: linear-gradient(31deg, rgba(13,12,36,1) 28%, #364451 100%);
+    --frame-bg: #2f2f43;
+
+    --border: #454444;
+  }
+}
+
+:root {
+  --MainPurpleColor: #a29cfd;
+  --MainHoverPurpleColor: #b9b5fd;
+  --MainDimPurpleColor: #9793DA7F;
+  --MainGrayColor: #f2f2f2;
+  --MainDarknesColor: rgba(0, 0, 0, 0.7);
+  --MainHoverDarknesColor: rgba(0, 0, 0, 0.5);
+}
+
+
