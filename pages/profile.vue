@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref, useAuth, useLFetch, useRouter, useUtils} from "#imports";
 import Card from "~/components/Build/Card.vue";
-import Products from "~/components/Build/Products.vue";
+import Products from "~/components/Build/Products";
 
 const {formatDate} = useUtils();
 const router = useRouter();
