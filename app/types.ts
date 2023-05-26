@@ -43,4 +43,19 @@ type Review = {
     reviews: string,
     user: number
 }
+type Basket = {
+    id: number,
+    id_user: number,
+    id_statusBasket: number,
+    id_subscriptionsBasket: number,
+    name_user: string,
+    name_statusBasket: string,
+    name_subscriptionsBasket: string
+}
+type Order = {
+    id: number,
+    id_basket: number,
+    id_product: number,
+    name_product: string
+}
 

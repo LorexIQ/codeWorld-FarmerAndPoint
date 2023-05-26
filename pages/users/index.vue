@@ -39,11 +39,11 @@ const tHeadData: TableCell<User>[] = [
       <UILTableModuleSort v-model:value="tHeadData" name="default"/>
       <UILTableBody>
         <UILTableRow
-          v-for="row in testData"
+          v-for="(row, index) in testData"
           :key="row.id"
         >
           <UILTableData
-            v-for="(col, index) in tHeadData"
+            v-for="col in tHeadData"
             :key="`cell-${row.id}-${col.id}`"
             :align="col.align"
           >
