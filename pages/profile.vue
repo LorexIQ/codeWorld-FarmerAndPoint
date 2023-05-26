@@ -34,17 +34,14 @@ function changePhoto(e: Event) {
   <div class="profile">
     <div class="profile__info">
       <div v-if="user.role === 'USER'" class="profile__info__rates">
+        <card/>
         <div class="profile__rates__header">
-          <h1>Отзывы</h1>
+          <h1>Последние заказы</h1>
         </div>
         <UILHr/>
         <div class="profile__rates__list">
           <div class="profile__rates__list__rates">
-            <div
-                class="profile__rates__list__rates__rate"
-            >
-
-            </div>
+            features: Последние 2-3 заказа пользователя
           </div>
         </div>
       </div>

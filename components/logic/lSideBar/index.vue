@@ -22,6 +22,24 @@ const pages: Page[] = [
     title: 'Профиль',
     link: '/profile'
   },
+  {
+    icon: 'star',
+    title: 'Отзывы',
+    link: '/reviews',
+    if: () => user.value.role !== 'USER'
+  },
+  {
+    icon: 'basket',
+    title: 'Корзина',
+    link: '/basket',
+    if: () => user.value.role === 'USER'
+  },
+  {
+    icon: 'basket',
+    title: 'Заказы',
+    link: '/',
+    if: () => user.value.role === 'ADMIN'
+  },
 ];
 
 function logout() {
@@ -33,7 +51,7 @@ function logout() {
   <div class="side-bar">
     <div class="side-bar__logo">
       <nuxt-icon name="tree"/>
-      <h2>KOLKHOZ 2.0</h2>
+      <h2>FARMER&.</h2>
     </div>
     <div class="side-bar__pages">
       <Page

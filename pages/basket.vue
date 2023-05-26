@@ -3,9 +3,7 @@
 </script>
 
 <template>
-  <div class="product-new">
-    features: Создание продукта
-  </div>
+  features: Корзина с товарами, оплата и история покупок
 </template>
 
 <style lang="scss" scoped></style>

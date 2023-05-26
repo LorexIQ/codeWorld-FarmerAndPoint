@@ -64,9 +64,9 @@ async function createCard() {
         card: `${inputs.number}|${inputs.date}|${inputs.cvv}`
       }
     }))
-        .then(res => {
+        .then(async res => {
           card.new = false;
-          auth.getSession();
+          await auth.getSession();
           cardCreateBtn.dropStatus();
         })
   } else {

@@ -61,7 +61,7 @@ watch(auth.status, (value) => {
     <div class="auth__title">
       <div class="auth__title__logo">
         <nuxt-icon name="tree"/>
-        <h4>KOLKHOZ 2.0</h4>
+        <h4>FARMER&.</h4>
       </div>
       <h2>Авторизация</h2>
     </div>

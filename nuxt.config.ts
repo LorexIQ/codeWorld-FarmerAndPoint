@@ -4,13 +4,6 @@ export default defineNuxtConfig({
     // @ts-ignore
     ssr: false,
 
-    app: {
-        pageTransition: {
-            name: 'page',
-            mode: 'default'
-        }
-    },
-
     modules: [
         '@vueuse/nuxt',
         '@sidebase/nuxt-auth',

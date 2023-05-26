@@ -35,4 +35,12 @@ type Product = {
     cost: number,
     photo: string | null
 }
+type Review = {
+    id:number,
+    assessment: number,
+    farmer: number,
+    nameUser: string,
+    reviews: string,
+    user: number
+}
 

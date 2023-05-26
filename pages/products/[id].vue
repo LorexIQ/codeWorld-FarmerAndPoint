@@ -4,7 +4,7 @@
 
 <template>
   <div class="product">
-    123
+    features: Просмотр информации о продукте
   </div>
 </template>
 
