@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useAuth, useLFetch, useRouter, useUtils} from "#imports";
+import {ref, useAuth, useLFetch, useRouter, useUtils} from "#imports";
 import Card from "~/components/Build/Card.vue";
 import Products from "~/components/Build/Products.vue";
 
@@ -7,6 +7,7 @@ const {formatDate} = useUtils();
 const router = useRouter();
 const auth = useAuth();
 const user = auth.data as unknown as User;
+let profileImg = ref(user.value.photo ?? '');
 
 function changePhoto(e: Event) {
   const DOMInput = e.target as HTMLInputElement;
@@ -15,6 +16,7 @@ function changePhoto(e: Event) {
 
     fileReader.onload = () => {
       if (fileReader.result) {
+        profileImg.value = fileReader.result as string;
         useLFetch('/user/update-photo', {
           method: 'POST',
           body: {
@@ -52,6 +54,7 @@ function changePhoto(e: Event) {
     </div>
     <div class="profile__user">
       <div class="profile__user__avatar">
+        <img :src="profileImg" alt="Error">
         <input type="file" id="profile-img" @change="changePhoto">
         <label for="profile-img">
           <span>Загрузить</span>
@@ -122,7 +125,14 @@ function changePhoto(e: Event) {
       margin-bottom: 40px;
       border-radius: 100%;
       background-color: #fff;
+      box-shadow: 0 0 15px -5px var(--shadow);
+      overflow: hidden;
 
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
       & input {
         display: none;
       }

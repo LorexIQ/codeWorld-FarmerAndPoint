@@ -75,9 +75,10 @@ function createProduct() {
         &__img {
           width: 170px;
           height: 170px;
-          padding-bottom: 10px;
+          margin-bottom: 20px;
           border-radius: 100%;
           background-color: #fff;
+          box-shadow: 0 0 15px -5px var(--shadow);
         }
         &__title {
           font-size: 22px;

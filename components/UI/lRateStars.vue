@@ -4,25 +4,30 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const starts = [0, 0, 0, 0, 0];
 </script>
 
 <template>
   <div class="stars">
-    <nuxt-icon
-        name="star"
-        :class="{'start--active': value > index}"
-        v-for="(start, index) in starts"
-        :key="index"
-    />
+    <h4>{{value}}/5</h4>
+    <div class="starts__svg">
+      <nuxt-icon
+          name="star"
+          v-for="(start, index) in Array(value)"
+          :key="index"
+      />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .stars {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 40px;
-  &--active {
-    & svg path {
+
+  &__svg {
+    & svg {
       color: #76be81 !important;
     }
   }

@@ -42,7 +42,10 @@ const reviews = await useLFetch<Review[]>(`/reviews/reviews-by-id?id=${user.valu
   margin: 20px 0;
 }
 .page-reviews {
+  height: 100%;
   &__container {
+    height: calc(100% - 80px);
+    overflow-y: auto;
     &__reviews {
       &__review {
         margin-bottom: 15px;
