@@ -8,7 +8,7 @@ import {
 } from "~/components/Smart/Input/types/entities";
 
 
-export function UseSmartInputs<T extends UseSmartInputsProps>(
+export function useSmartInputs<T extends UseSmartInputsProps>(
     inputs: T
 ): UseSmartInputsReturn<T> {
     const store = {} as UseSmartInputsConfigType<T>;
@@ -16,7 +16,7 @@ export function UseSmartInputs<T extends UseSmartInputsProps>(
     let values = {} as  UseSmartInputsValues<T>;
 
     for (let inputsKey in inputs) {
-        values[inputsKey] = 'asd';
+        values[inputsKey] = '';
         store[inputsKey] = UseSmartInput(inputs[inputsKey]);
     }
 

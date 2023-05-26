@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import useLFetch from "~/composables/useLFetch";
 
-const { data: testData } = await useLFetch<User[]>('user/get-user-by-role?role=USER');
+const testData = await useLFetch<User[]>('user/get-user-by-role?role=USER');
 
 const tHeadData: TableCell<User>[] = [
   {

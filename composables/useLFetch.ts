@@ -1,14 +1,22 @@
 import {useAuth, useFetch, useRuntimeConfig} from "#imports";
 
-export default function<T>(url: string) {
+
+type FetchMethod = 'GET' | 'POST';
+type FetchOptions = {
+    method: FetchMethod,
+    body?: {}
+}
+
+export default function<T>(url: string, options?: FetchOptions) {
     const config = useRuntimeConfig();
     const auth = useAuth();
 
-    const fetch = useFetch<T>(url, {
+    return $fetch<T>(url, {
         baseURL: config.public.auth.baseURL,
+        method: options?.method,
+        body: options?.body,
         headers: {
             Authorization: auth.token.value ?? ''
-        }
+        },
     })
-    return fetch;
 }

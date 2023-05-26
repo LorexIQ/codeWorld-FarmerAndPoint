@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import {useAuth, useNuxtApp, watch} from "#imports";
+import {useAuth, useNuxtApp, useRouter, watch} from "#imports";
 import {User} from "~/components/logic/types/lNavBar";
 import {ref} from "@vue/reactivity";
 import LSwitch from "~/components/UI/lSwitch.vue";
-import {useSmartButton} from "~/components/Smart/SmartButton/composables";
+import {useSmartButton} from "~/components/Smart/Button/composables";
 
 const logoutBtn = useSmartButton();
 const auth = useAuth();
+const router = useRouter();
 const {$userId, $selectedTheme, $setTheme} = useNuxtApp();
 const user = auth.data.value as User;
 let isDarkTheme = ref($selectedTheme.value === 'dark-mode');
@@ -15,6 +16,7 @@ watch(isDarkTheme, value => {
   $setTheme(value ? 'dark-mode' : 'light-mode');
 });
 function signOut() {
+  router.push('/login');
   logoutBtn.fetch(auth.signOut( { callbackUrl: '/login' }));
 }
 </script>

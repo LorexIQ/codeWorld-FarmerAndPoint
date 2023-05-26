@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SmartInput from "~/components/Smart/Input";
-import {UseSmartInputs} from "~/components/Smart/Input/composables";
+import {useSmartInputs} from "~/components/Smart/Input/composables";
 import {ref, useAuth, watch} from "#imports";
 import {useSmartButton} from "~/components/Smart/Button/composables";
 import {ButtonFetchStatus} from "~/components/Smart/Button/types/entities";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 const auth = useAuth()
 const button = useSmartButton();
-const inputs = UseSmartInputs({
+const inputs = useSmartInputs({
   login: {
     regex: {
       pattern: new RegExp('^[a-zA-Z][a-zA-Z0-9]{4,11}$'),

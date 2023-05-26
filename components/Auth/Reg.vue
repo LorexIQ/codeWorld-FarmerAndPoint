@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import SmartInput from "~/components/Smart/Input";
-import {UseSmartInputs} from "~/components/Smart/Input/composables";
+import {useSmartInputs} from "~/components/Smart/Input/composables";
 import {ref, useAuth, watch} from "#imports";
 import {useSmartButton} from "~/components/Smart/Button/composables";
 import {ButtonFetchStatus} from "~/components/Smart/Button/types/entities";
 import LNuxtLink from "~/components/UI/lNuxtLink.vue";
+import LRadioCard from "~/components/UI/lRadioCard.vue";
 
 const auth = useAuth()
 const button = useSmartButton();
-const inputs = UseSmartInputs({
+const inputs = useSmartInputs({
   login: {
     regex: {
       pattern: new RegExp('^[a-zA-Z][a-zA-Z0-9]{4,11}$'),
@@ -27,6 +28,33 @@ const inputs = UseSmartInputs({
       placeholder: 'Почта'
     }
   },
+  name: {
+    regex: {
+      pattern: new RegExp('^.{10,}$'),
+      error: 'Слишком короткое ФИО'
+    },
+    attrs: {
+      placeholder: 'ФИО'
+    }
+  },
+  phone: {
+    regex: {
+      pattern: new RegExp('^((\\+7|7|8)+([\\- ]?))+(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$'),
+      error: 'Неверный формат номера телефона'
+    },
+    attrs: {
+      placeholder: 'Номер телефона'
+    }
+  },
+  address: {
+    regex: {
+      pattern: new RegExp('^.{10,}$'),
+      error: 'Адрес слишком короткий'
+    },
+    attrs: {
+      placeholder: 'Адрес'
+    }
+  },
   password: {
     regex: {
       pattern: new RegExp('^[a-zA-Z0-9]{5,20}$'),
@@ -38,11 +66,15 @@ const inputs = UseSmartInputs({
   }
 });
 
+const roleUser = ref('USER');
 const error = ref('');
 
 async function signUp() {
   if (inputs.check()) {
-    button.fetch(auth.signUp(inputs.values, { callbackUrl: '/' }))
+    button.fetch(auth.signUp({
+      ...inputs.values,
+      role: roleUser.value
+    }, {callbackUrl: '/'}))
         .catch(err => {
           error.value = err;
         });
@@ -84,14 +116,49 @@ watch(auth.status, (value) => {
           :value="inputs.store.email"
       />
       <SmartInput
+          id="auth-name"
+          type="text"
+          icon="user"
+          :value="inputs.store.name"
+      />
+      <SmartInput
+          id="auth-phone"
+          type="text"
+          icon="call"
+          :value="inputs.store.phone"
+      />
+      <SmartInput
+          id="auth-address"
+          type="text"
+          icon="location"
+          :value="inputs.store.address"
+      />
+      <SmartInput
           id="password-auth"
           type="password"
           icon="pass"
           :value="inputs.store.password"
       />
+      <div class="auth__body__cards">
+        <LRadioCard
+            id="USER"
+            namespace="user"
+            name="Клиент"
+            icon="import"
+            :checked="true"
+            v-model:value="roleUser"
+        />
+        <LRadioCard
+            id="FARMER"
+            namespace="user"
+            name="Фермер"
+            icon="export"
+            v-model:value="roleUser"
+        />
+      </div>
     </div>
     <div class="auth__footer">
-      <span class="auth__footer__error">{{error}}</span>
+      <span class="auth__footer__error">{{ error }}</span>
       <smart-button
           type="submit"
           :value="button"

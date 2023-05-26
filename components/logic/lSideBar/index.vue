@@ -8,14 +8,7 @@ const pages: Page[] = [
   {
     icon: 'users',
     title: 'Пользователи',
-    link: '/users',
-    children: [
-      {
-        icon: 'profile',
-        title: 'Профиль',
-        link: '/profile'
-      }
-    ]
+    link: '/users'
   },
   {
     icon: 'profile',
