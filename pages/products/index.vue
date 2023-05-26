@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, useLFetch, useRouter} from "#imports";
+import {ref, useAuth, useLFetch, useRouter} from "#imports";
 import ProductCard from "~/components/Build/Products/ProductCard.vue";
 import LButton from "~/components/UI/lButton.vue";
 
@@ -9,6 +9,9 @@ const categories = await useLFetch<Category[]>('/other/all-category');
 
 let selectedCategory = ref(2);
 const router = useRouter();
+
+const auth = useAuth();
+const user = auth.data as unknown as User;
 
 function getUserProducts(idUser: number): Product[] {
   return products.filter(product => product.id_user === idUser);
@@ -45,7 +48,7 @@ function createProduct() {
     <UILHr/>
     <div class="page-products__row">
       <h2>Продукты</h2>
-      <l-button @click="createProduct">Добавить</l-button>
+      <l-button v-if="user.role === 'FARMER'" @click="createProduct">Добавить</l-button>
     </div>
     <UILHr/>
     <div class="page-products__container">
@@ -70,28 +73,31 @@ function createProduct() {
   height: 100%;
   &__categories {
     max-height: 100%;
-   &__container {
-     display: flex;
-     flex-wrap: wrap;
-     gap: 10px;
-     height: max-content;
-     &__category {
-       font-size: 24px;
-       width: max-content;
-       padding: 7px 15px;
-       border-radius: 5px;
-       border: 1px solid var(--border);
-       cursor: pointer;
 
-       &:hover {
-         background-color: rgba(0, 0, 0, 0.15);
-       }
-       &.--selected {
-         color: var(--frame-bg-2);
-         background-color: var(--text);
-       }
-     }
-   }
+    &__container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      height: max-content;
+
+      &__category {
+        font-size: 24px;
+        width: max-content;
+        padding: 7px 15px;
+        border-radius: 5px;
+        border: 1px solid var(--border);
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        &.--selected {
+          color: var(--frame-bg-2);
+          background-color: var(--text);
+        }
+      }
+    }
   }
   &__row {
     display: flex;

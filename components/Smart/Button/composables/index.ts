@@ -12,7 +12,7 @@ export function useSmartButton(): UseSmartButtonResult {
                     setTimeout((response) => {
                         status.value = ButtonFetchStatus.SUCCESS;
                         resolve(response);
-                    }, 500);
+                    }, 500, res);
                 })
                 .catch(err => {
                     setTimeout(() => {

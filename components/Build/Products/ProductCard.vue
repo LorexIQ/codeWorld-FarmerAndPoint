@@ -9,7 +9,7 @@ const router = useRouter();
 const props = defineProps<Props>();
 
 function goToProduct(id: number) {
-  router.push({path: `/products/${id}`});
+  router.push({path: `/products`});
 }
 </script>
 

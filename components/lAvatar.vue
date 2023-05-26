@@ -43,8 +43,8 @@ function changePhoto(e: Event) {
 <style lang="scss" scoped>
 .avatar {
   position: relative;
-  width: min(70%, 300px);
-  height: min(70%, 300px);
+  width: 300px;
+  height: 300px;
   margin-bottom: 40px;
   border-radius: 100%;
   background-color: #fff;
