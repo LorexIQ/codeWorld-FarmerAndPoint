@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useAuth, useLFetch, useRouter} from "#imports";
+import LButton from "~/components/UI/lButton.vue";
 
 const auth = useAuth();
 const router = useRouter();
@@ -9,12 +10,16 @@ const products = await useLFetch<Product[]>(`/product/get-products-by-user-id?id
 function goToProduct(id: number) {
   router.push({path: `/products/${id}`});
 }
+function createProduct() {
+  router.push({path: '/products/new'});
+}
 </script>
 
 <template>
   <div class="products-component">
     <div class="products-component__header">
       <h1>Продукты</h1>
+      <l-button @click="createProduct">Добавить</l-button>
     </div>
     <UILHr/>
     <div class="products-component__slider">
@@ -39,6 +44,14 @@ function goToProduct(id: number) {
 .products-component {
   & .l-hr {
     margin: 20px 0;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    & .l-button {
+      width: max-content;
+    }
   }
   &__slider {
     overflow-y: auto;

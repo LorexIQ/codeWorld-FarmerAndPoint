@@ -2,13 +2,20 @@
 import {useAuth} from "#imports";
 import Page from "~/components/logic/lSideBar/Page.vue";
 
-const {data: user, ...auth} = useAuth();
+const auth = useAuth();
+const user = auth.data as unknown as User;
 
 const pages: Page[] = [
   {
     icon: 'users',
     title: 'Пользователи',
-    link: '/users'
+    link: '/users',
+    if: () => user.value.role === 'ADMIN'
+  },
+  {
+    icon: 'boxes',
+    title: 'Продукты',
+    link: '/products'
   },
   {
     icon: 'profile',

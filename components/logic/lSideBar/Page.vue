@@ -8,7 +8,7 @@ const page = props.value;
 </script>
 
 <template>
-  <div class="page">
+  <div class="page" v-if="value.if ? value.if() : true">
     <NuxtLink :to="page.link" class="page__self">
       <div class="page__self__icon"><nuxt-icon :name="page.icon"/></div>
       <div class="page__self__name">{{page.title}}</div>

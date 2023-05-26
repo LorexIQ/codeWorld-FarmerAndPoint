@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {useAuth, useUtils} from "#imports";
+import {useAuth, useLFetch, useRouter, useUtils} from "#imports";
 import Card from "~/components/Build/Card.vue";
 import Products from "~/components/Build/Products.vue";
 
 const {formatDate} = useUtils();
+const router = useRouter();
 const auth = useAuth();
 const user = auth.data as unknown as User;
 
@@ -13,8 +14,17 @@ function changePhoto(e: Event) {
     const fileReader = new FileReader();
 
     fileReader.onload = () => {
-      console.log(fileReader.result)
+      if (fileReader.result) {
+        useLFetch('/user/update-photo', {
+          method: 'POST',
+          body: {
+            id: user.value.id,
+            photo: fileReader.result
+          }
+        })
+      }
     }
+
     fileReader.readAsDataURL(DOMInput.files[0]);
   }
 }
