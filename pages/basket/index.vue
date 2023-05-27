@@ -6,8 +6,13 @@ const auth = useAuth();
 const user = auth.data as unknown as User;
 const router = useRouter();
 
-const baskets = await useLFetch(`/basket/basket-for-user?id=${user.value.id}`);
-const tHeadData: TableCell<Basket>[] = [
+enum BasketStatus {
+  ACTIVE = 1,
+  CLOSED
+}
+
+const baskets = await useLFetch<Basket[]>(`/basket/basket-for-user?id=${user.value.id}`);
+const tClosedHeadData: TableCell<Basket>[] = [
   {
     id: null,
     title: '№П/п',
@@ -24,6 +29,11 @@ const tHeadData: TableCell<Basket>[] = [
     type: 'text'
   },
   {
+    id: 'cost',
+    title: 'Стоимость',
+    type: 'rPrice'
+  },
+  {
     id: 'name_statusBasket',
     title: 'Статус',
     type: 'text'
@@ -33,7 +43,18 @@ const tHeadData: TableCell<Basket>[] = [
     title: '',
     type: 'actions'
   }
-]
+];
+const tActiveHeadData: TableCell<Basket>[] = tClosedHeadData.slice(1);
+
+const activeBasket = getActiveBasket();
+const closedBaskets = getClosedBaskets();
+
+function getActiveBasket(): Basket | null {
+  return baskets.filter(basket => basket.id_statusBasket === BasketStatus.ACTIVE)[0] ?? null;
+}
+function getClosedBaskets(): Basket[] {
+  return baskets.filter(basket => basket.id_statusBasket === BasketStatus.CLOSED);
+}
 
 function openBasket(id: number) {
   router.push({path: `/basket/${id}`})
@@ -42,38 +63,31 @@ function openBasket(id: number) {
 
 <template>
   <div class="basket-page">
-    <div class="basket-page__row">
-      <h2>Корзины</h2>
-      <l-button>Создать</l-button>
-    </div>
+    <h2>Активная</h2>
     <UILHr/>
     <UILTable>
-      <UILTableModuleSort v-model:value="tHeadData" name="default"/>
-      <UILTableBody>
-        <UILTableRow
-            v-for="(row, index) in baskets"
-            :key="row.id"
-            @click="() => openBasket(row.id)"
-        >
-          <UILTableData
-              v-for="col in tHeadData"
-              :key="`cell-${row.id}-${col.id}`"
-              :align="col.align"
-          >
-            <template v-if="col.type === 'increment'">
-              {{index + 1}}
-            </template>
-            <template v-else-if="col.type === 'text'">
-              {{row[col.id]}}
-            </template>
-            <template v-else-if="col.type === 'actions'">
-              <div class="row-action">
-                <nuxt-icon name="link"/>
-              </div>
-            </template>
-          </UILTableData>
-        </UILTableRow>
-      </UILTableBody>
+      <UILTableModuleSort :value="tActiveHeadData" name="default"/>
+      <UILTableModuleBodyView
+          v-if="activeBasket"
+          :value="[activeBasket]"
+          :columns="tActiveHeadData"
+          @rowAction="openBasket"
+      />
+      <UILTableModuleNullList v-else>
+        Добавьте товар. Корзина будет создана автоматически
+      </UILTableModuleNullList>
+    </UILTable>
+    <h2>Оплачено</h2>
+    <UILHr/>
+    <UILTable>
+      <UILTableModuleSort :value="tClosedHeadData" name="default"/>
+      <UILTableModuleBodyView
+          v-if="closedBaskets.length"
+          :value="closedBaskets"
+          :columns="tClosedHeadData"
+          @rowAction="openBasket"
+      />
+      <UILTableModuleNullList v-else/>
     </UILTable>
   </div>
 </template>

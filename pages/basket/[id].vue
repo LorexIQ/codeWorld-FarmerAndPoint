@@ -5,7 +5,6 @@ import {useParams} from "next/navigation";
 const auth = useAuth();
 const user = auth.data as unknown as User;
 const params = useRoute().params;
-console.log(params)
 
 const orders = await useLFetch(`/basket/orders-for-basket?id=${params.id}`);
 const tHeadData: TableCell<Order>[] = [
@@ -17,11 +16,6 @@ const tHeadData: TableCell<Order>[] = [
   {
     id: 'name_product',
     title: 'Продукт',
-    type: 'text'
-  },
-  {
-    id: 'id_basket',
-    title: 'Корзина',
     type: 'text'
   }
 ]
@@ -63,4 +57,8 @@ const tHeadData: TableCell<Order>[] = [
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.l-hr {
+  margin: 20px 0;
+}
+</style>

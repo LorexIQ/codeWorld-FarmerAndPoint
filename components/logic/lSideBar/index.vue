@@ -51,7 +51,10 @@ function logout() {
   <div class="side-bar">
     <div class="side-bar__logo">
       <nuxt-icon name="tree"/>
-      <h2>FARMER&.</h2>
+      <div class="side-bar__logo__name">
+        <h2>FARMER&.</h2>
+        <p>Фермер И Точка</p>
+      </div>
     </div>
     <div class="side-bar__pages">
       <Page
@@ -84,13 +87,26 @@ function logout() {
     align-items: center;
     gap: 5px;
 
+    &__name {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      & h2 {
+        font-size: 30px;
+        font-family: Popping, sans-serif;
+        letter-spacing: -2px;
+      }
+      & p {
+        font-size: 10px;
+        letter-spacing: 3px;
+        position: absolute;
+        bottom: -6px;
+      }
+    }
     & .nuxt-icon {
       font-size: 50px;
-    }
-    & h2 {
-      font-size: 30px;
-      font-family: Popping, sans-serif;
-      letter-spacing: -2px;
     }
   }
   &__pages {

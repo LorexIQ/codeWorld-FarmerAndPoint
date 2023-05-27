@@ -1,9 +1,13 @@
 <script setup lang="ts">
+interface Props {
+  hoverEffect?: boolean
+}
 
+const props = defineProps<Props>();
 </script>
 
 <template>
-  <tr class="table-row">
+  <tr class="table-row" :class="{'table-row--hover': props?.hoverEffect}">
     <slot/>
   </tr>
 </template>

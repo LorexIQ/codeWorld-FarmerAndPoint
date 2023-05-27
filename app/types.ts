@@ -10,6 +10,7 @@ type User = {
     role: 'ADMIN' | 'USER' | 'FARMER',
     card: string | null,
     discount: number,
+    id_basket: number,
 
     value: User
 }
@@ -50,12 +51,14 @@ type Basket = {
     id_subscriptionsBasket: number,
     name_user: string,
     name_statusBasket: string,
-    name_subscriptionsBasket: string
+    name_subscriptionsBasket: string,
+    cost: number
 }
 type Order = {
     id: number,
     id_basket: number,
     id_product: number,
-    name_product: string
+    name_product: string,
+    cost: number
 }
 

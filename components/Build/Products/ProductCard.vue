@@ -18,10 +18,10 @@ function goToProduct(id: number) {
       class="product"
       @click="() => goToProduct(value.id)"
   >
-    <div class="product__img"><img src="" alt=""></div>
+    <div class="product__img"><nuxt-icon name="box"/></div>
     <div class="product__title">{{value.name}}</div>
     <div class="product__category">{{value.categoryName}}</div>
-    <div class="product__price">{{value.cost}}</div>
+    <div class="product__price">{{value.cost}} ₽</div>
   </div>
 </template>
 
@@ -32,26 +32,32 @@ function goToProduct(id: number) {
   justify-content: space-between;
   align-items: center;
   min-width: 200px;
-  height: 300px;
-  padding: 20px 0;
+  height: 330px;
+  padding: 15px 0;
   border-radius: 10px;
   background-color: var(--frame-bg-2);
   box-shadow: 0 0 10px -3px var(--border);
   cursor: pointer;
 
   &__img {
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 170px;
     height: 170px;
     margin-bottom: 20px;
-    border-radius: 100%;
+    border-radius: 10%;
     background-color: #fff;
     box-shadow: 0 0 15px -5px var(--shadow);
   }
   &__title {
     font-size: 22px;
+    font-weight: 600;
   }
   &__price {
     font-size: 28px;
+    font-weight: 700;
   }
 }
 </style>
