@@ -57,6 +57,7 @@ function createProduct() {
             v-for="product in (selectedCategory ? getCategoryProducts(selectedCategory) : products)"
             :key="product.id"
             :value="product"
+            :add="user.role === 'USER'"
         />
       </div>
     </div>

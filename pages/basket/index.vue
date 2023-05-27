@@ -42,7 +42,7 @@ const tClosedHeadData: TableCell<Basket>[] = [
 const tActiveHeadData: TableCell<Basket>[] = tClosedHeadData.slice(1);
 
 const activeBasket = getActiveBasket();
-const closedBaskets = getClosedBaskets();
+const closedBaskets = getClosedBaskets().reverse();
 
 function getActiveBasket(): Basket | null {
   return baskets.filter(basket => basket.id_statusBasket === BasketStatus.ACTIVE)[0] ?? null;

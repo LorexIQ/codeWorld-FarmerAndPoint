@@ -40,6 +40,11 @@ const pages: Page[] = [
     link: '/',
     if: () => user.value.role === 'ADMIN'
   },
+  {
+    icon: 'send',
+    title: 'Помощь',
+    link: 'https://t.me/FaemerAndPointINFOBot'
+  },
 ];
 
 function logout() {

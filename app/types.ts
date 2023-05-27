@@ -10,7 +10,7 @@ type User = {
     role: 'ADMIN' | 'USER' | 'FARMER',
     card: string | null,
     discount: number,
-    id_basket: number,
+    id_basket: number | null,
 
     value: User
 }

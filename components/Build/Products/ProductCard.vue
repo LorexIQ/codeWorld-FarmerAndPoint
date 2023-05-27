@@ -1,15 +1,41 @@
 <script setup lang="ts">
-import {useRouter} from "#imports";
+import {useAuth, useLFetch, useRouter} from "#imports";
+import {useSmartButton} from "~/components/Smart/Button/composables";
 
 interface Props {
-  value: Product
+  value: Product,
+  add?: boolean
 }
 
 const router = useRouter();
 const props = defineProps<Props>();
 
+const addBtn = useSmartButton();
+const auth = useAuth();
+let user = auth.data as unknown as User;
+
 function goToProduct(id: number) {
   router.push({path: `/products`});
+}
+async function addProductToBasket() {
+  if (!user.value.id_basket) {
+    await addBtn.fetch(useLFetch(`/basket/create-basket`, {
+      method: 'POST',
+      body: {
+        id_user: user.value.id,
+        id_statusBasket: 1,
+        id_subscriptionsBasket: 1
+      }
+    }));
+    user = await auth.getSession() as User;
+  }
+  await addBtn.fetch(useLFetch(`/basket/create-order`, {
+    method: 'POST',
+    body: {
+      id_basket: user.value.id_basket,
+      id_product: props.value.id
+    }
+  }))
 }
 </script>
 
@@ -22,6 +48,10 @@ function goToProduct(id: number) {
     <div class="product__title">{{value.name}}</div>
     <div class="product__category">{{value.categoryName}}</div>
     <div class="product__price">{{value.cost}} ₽</div>
+    <div class="product__btn" v-if="add"><SmartButton :value="addBtn" @click="addProductToBasket">
+      <template #default>Добавить</template>
+      <template #loading>Добавление</template>
+    </SmartButton></div>
   </div>
 </template>
 
