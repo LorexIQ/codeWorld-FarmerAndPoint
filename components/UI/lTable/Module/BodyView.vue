@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useRouter} from "#imports";
+import {useRouter, useUtils} from "#imports";
 
 interface Props<T = any> {
   value: T[],
@@ -12,6 +12,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 const router = useRouter();
+const {formatDate} = useUtils();
 
 function rowAction(id: number) {
   emit('rowAction', id);
@@ -39,6 +40,9 @@ function rowAction(id: number) {
         </template>
         <template v-else-if="col.type === 'rPrice'">
           {{row[col.id]}} ₽
+        </template>
+        <template v-else-if="col.type === 'date'">
+          {{formatDate(row[col.id])}}
         </template>
         <template v-else-if="col.type === 'actions'">
           <div class="row-action">

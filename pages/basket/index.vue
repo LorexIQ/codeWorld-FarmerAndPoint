@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import {useAuth, useLFetch, useRouter} from "#imports";
-import LButton from "~/components/UI/lButton.vue";
+import {BasketStatus} from "~/app/entities";
 
 const auth = useAuth();
 const user = auth.data as unknown as User;
 const router = useRouter();
-
-enum BasketStatus {
-  ACTIVE = 1,
-  CLOSED
-}
 
 const baskets = await useLFetch<Basket[]>(`/basket/basket-for-user?id=${user.value.id}`);
 const tClosedHeadData: TableCell<Basket>[] = [
@@ -19,8 +14,8 @@ const tClosedHeadData: TableCell<Basket>[] = [
     type: 'increment'
   },
   {
-    id: 'name_user',
-    title: 'Пользователь',
+    id: 'id',
+    title: 'ID',
     type: 'text'
   },
   {

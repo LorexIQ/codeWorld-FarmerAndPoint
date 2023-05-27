@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import {useAuth, useLFetch, useRoute} from "#imports";
-import {useParams} from "next/navigation";
+import {useAuth, useLFetch, useRoute, useRouter} from "#imports";
+import LButton from "~/components/UI/lButton.vue";
+import useModal from "~/components/UI/composables/useModal";
+import {BasketStatus} from "~/app/entities";
 
 const auth = useAuth();
 const user = auth.data as unknown as User;
 const params = useRoute().params;
+const router = useRouter();
 
-const orders = await useLFetch(`/basket/orders-for-basket?id=${params.id}`);
+const payModal = useModal();
+const bankModal = useModal();
+const test = useModal();
+
+const basket = await useLFetch<Basket>(`/basket/get-basket-by-id?id=${params.id}`);
+const orders = await useLFetch<Order[]>(`/basket/orders-for-basket?id=${params.id}`);
 const tHeadData: TableCell<Order>[] = [
   {
     id: null,
@@ -15,50 +23,99 @@ const tHeadData: TableCell<Order>[] = [
   },
   {
     id: 'name_product',
-    title: 'Продукт',
+    title: 'Наименование',
     type: 'text'
+  },
+  {
+    id: 'delivery_date',
+    title: 'Дата производства',
+    type: 'date'
+  },
+  {
+    id: 'delivery_date',
+    title: 'Приблизительная дата доставки',
+    type: 'date'
+  },
+  {
+    id: 'cost',
+    title: 'Стоимость',
+    type: 'rPrice'
   }
-]
+];
+
+function payBasket() {
+  payModal.open();
+}
+function methodSelected(method: PayMethod) {
+  if (method === 'LOCAL') {
+    payModal.close();
+    useLFetch('/basket/close-basket').then(r => router.push({path: '/basket/'}));
+  } else if (method === 'BANK') {
+    payModal.close();
+    bankModal.open();
+  }
+}
 </script>
 
 <template>
   <div class="basket-page">
-    <div class="basket-page__row">
-      <h2>Заказы корзины №{{params.id}}</h2>
+    <div class="basket-page__check">
+      <h2>Товары корзины №{{params.id}} ({{basket.name_statusBasket}})</h2>
+      <UILHr/>
+      <UILTable>
+        <UILTableModuleSort v-model:value="tHeadData" name="default"/>
+        <UILTableModuleBodyView :value="orders" :columns="tHeadData"/>
+      </UILTable>
     </div>
-    <UILHr/>
-    <UILTable>
-      <UILTableModuleSort v-model:value="tHeadData" name="default"/>
-      <UILTableBody>
-        <UILTableRow
-            v-for="(row, index) in orders"
-            :key="row.id"
-        >
-          <UILTableData
-              v-for="col in tHeadData"
-              :key="`cell-${row.id}-${col.id}`"
-              :align="col.align"
-          >
-            <template v-if="col.type === 'increment'">
-              {{index + 1}}
-            </template>
-            <template v-else-if="col.type === 'text'">
-              {{row[col.id]}}
-            </template>
-            <template v-else-if="col.type === 'actions'">
-              <div class="row-action">
-                <nuxt-icon name="link"/>
-              </div>
-            </template>
-          </UILTableData>
-        </UILTableRow>
-      </UILTableBody>
-    </UILTable>
+    <div class="basket-page__result">
+      <UILHr/>
+      <div class="basket-page__result__content">
+        <div class="basket-page__result__content__price">
+          <span>Итого:</span>
+          <h2>{{basket.cost}} ₽</h2>
+        </div>
+        <l-button v-if="basket.id_statusBasket === BasketStatus.ACTIVE" @click="payBasket">Оплатить</l-button>
+        <h2 v-else>Оплачено</h2>
+      </div>
+    </div>
+    <ModalsMethodPaySelect :value="payModal" @changeMethod="methodSelected"/>
+    <ModalsBankPay :value="bankModal"/>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .l-hr {
   margin: 20px 0;
+}
+.basket-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  &__check {}
+  &__result {
+    &__content {
+      display: flex;
+      justify-content: space-between;
+
+      & span {
+        font-size: 30px;
+      }
+      & h2 {
+        font-size: 30px;
+        white-space: nowrap;
+      }
+      &__price {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      & .l-button {
+        font-size: 26px;
+        width: min-content;
+      }
+    }
+  }
 }
 </style>

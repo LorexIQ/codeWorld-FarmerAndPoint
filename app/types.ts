@@ -59,6 +59,10 @@ type Order = {
     id_basket: number,
     id_product: number,
     name_product: string,
+    delivery_date: Date,
+    date_create: Date,
     cost: number
 }
+type PayMethod = 'LOCAL' | 'BANK';
+
 

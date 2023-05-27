@@ -14,8 +14,10 @@ const props = defineProps<Props>();
 const hook = props.value as UseModalExtended;
 
 let status = ref(props.defaultStatus ?? false);
-hook.initOpen(openModal);
-hook.initClose(closeModal);
+if (hook) {
+  hook.initOpen(openModal);
+  hook.initClose(closeModal);
+}
 
 function openModal() {
   status.value = true;
@@ -30,13 +32,8 @@ function closeModal() {
     <div class="modal" v-if="status">
       <OnClickOutside class="modal__content" @trigger="closeModal">
         <body>
-          <slot name="body"/>
+          <slot/>
         </body>
-        <l-hr/>
-        <footer>
-          <slot name="footer"/>
-          <l-button decor="red" @click="closeModal">Закрыть</l-button>
-        </footer>
       </OnClickOutside>
     </div>
   </Transition>
@@ -57,9 +54,9 @@ function closeModal() {
   &__content {
     width: min-content;
     padding: 20px;
-    border: 1px solid #454444;
     border-radius: 7px;
-    background-color: #2f2f43;
+    background-color: var(--frame-bg);
+    box-shadow: 0 0 15px -5px var(--shadow);
     & .l-hr {
       margin: 20px 0 !important;
     }
