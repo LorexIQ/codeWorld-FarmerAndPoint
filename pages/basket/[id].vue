@@ -50,7 +50,6 @@ function methodSelected(method: PayMethod) {
   if (method === 'LOCAL') {
     payModal.close();
     useLFetch(`/basket/close-basket?id=${basket.id}`).then(r => router.push({path: '/basket/'}));
-    auth.getSession();
   } else if (method === 'BANK') {
     payModal.close();
     bankModal.open();

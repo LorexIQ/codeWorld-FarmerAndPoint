@@ -19,14 +19,14 @@ function goToProduct(id: number) {
 }
 async function addProductToBasket() {
   if (!user.value.id_basket) {
-    await addBtn.fetch(useLFetch(`/basket/create-basket`, {
+    await useLFetch(`/basket/create-basket`, {
       method: 'POST',
       body: {
         id_user: user.value.id,
         id_statusBasket: 1,
         id_subscriptionsBasket: 1
       }
-    }));
+    });
     user = await auth.getSession() as User;
   }
   await addBtn.fetch(useLFetch(`/basket/create-order`, {
